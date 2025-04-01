@@ -19,6 +19,7 @@ class AM_MT_REY_NODES(bpy.types.Menu):
         # Add your custom node operator to the dropdown
         layout.operator("rey.nodes_append", text="Append REY_Nodes")
         layout.operator("rey.ng1", text="REY_BumpNormDisp_V1")
+            # https://docs.blender.org/api/current/bpy.types.UILayout.html#bpy.types.UILayout.operator
 
 
 
