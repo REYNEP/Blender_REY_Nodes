@@ -13,9 +13,10 @@ def add_Node_MoveWithMouse():
     return bpy.ops.node.translate_attach_remove_on_cancel('INVOKE_DEFAULT')
 
 
-def add_NodeGroup(group_name, pNodeTree, pMSG_notFound):
+def add_ShaderNodeGroup(group_name: str, pNodeTree: bpy.types.SpaceNodeEditor, pMSG_notFound):
     # Instantiate The Node
     bpy.ops.node.add_node(type="ShaderNodeGroup", use_transform=True)
+        # https://github.com/blender/blender/blob/4499ae45051c7710f5287717d98fba9fd7d5bc1b/scripts/startup/bl_operators/node.py#L41
 
     if True:
         NT = pNodeTree                                  # NodeTree

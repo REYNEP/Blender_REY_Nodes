@@ -1,5 +1,5 @@
 import bpy
-import REY_Utils
+from . import REY_Utils
 
 class REY_InstantiateNode(bpy.types.Operator):
       # this function/operator will be added as `bpy.ops.rey.instantiate_node()`
@@ -14,34 +14,19 @@ class REY_InstantiateNode(bpy.types.Operator):
         default="REY_BumpNormDisp_V1"
     )
 
-    def MSG_notShaderEditor(self):
+    def MESSAGE_notShaderEditor(self):
         self.report({'WARNING'}, "[REY_Nodes] Not in Shader Editor!")
-    def MSG_notFound_REY_Node(self):
+    def MESSAGE_notFound_REY_Node(self):
         self.report({'ERROR'}, f"Node group '{self.node_group_name}' not found!")
 
     def execute(self, context):
-        if REY_Utils .isShaderEditor():
-            self.MSG_notShaderEditor()
+        if (not REY_Utils.isShaderEditor(context)):
+            self.MESSAGE_notShaderEditor()
             return {'CANCELLED'}
-        
-        else:
-            # Instantiate The Node
-            bpy.ops.node.add_node(type="ShaderNodeGroup", use_transform=True)
-            if True:
-                NT = context.space_data.edit_tree                       # NodeTree
-                NG = bpy.data.node_groups.get(self.node_group_name)     # REY_Node
 
-                if not NG:
-                    self.MSG_notFound_REY_Node()
-                    return {'CANCELLED'}
-                
-                node = NT.nodes.active                                  # Node
-                node.node_tree = NG                                     # REY_Node -> Node
-                node.width     = NG.default_group_node_width            # Width
-                    # Yeah, NodeGroup is a type of NodeTree 💁‍♀️
-                
-            return bpy.ops.node.translate_attach_remove_on_cancel('INVOKE_DEFAULT')
-        # https://github.com/blender/blender/blob/4499ae45051c7710f5287717d98fba9fd7d5bc1b/scripts/startup/bl_operators/node.py#L41
+        else:
+            NT = context.space_data.edit_tree
+            return REY_Utils.add_ShaderNodeGroup(self.node_group_name, NT, self.MESSAGE_notFound_REY_Node)
 
 def register():
     bpy.utils.register_class(REY_InstantiateNode)
