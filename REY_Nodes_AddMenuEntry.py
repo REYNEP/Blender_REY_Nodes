@@ -1,5 +1,4 @@
 import bpy
-import os
 
 # AM = "Add Menu" = SHIFT + A Menu
     
@@ -16,9 +15,13 @@ class AM_MT_REY_NODES(bpy.types.Menu):
 
     def draw(self, context):
         layout = self.layout
+
         # Add your custom node operator to the dropdown
-        layout.operator("rey.nodes_append", text="Append REY_Nodes")
-        layout.operator("rey.ng1", text="REY_BumpNormDisp_V1")
+        op = layout.operator("rey.nodes_append", text="Append REY_Nodes")
+        op = layout.operator("rey.instantiate_node", text="REY_BumpNormDisp_V1")
+        # Call the operator with a parameter
+        op.node_group_name = "REY_BumpNormDisp_V1"  # Pass the parameter here
+
             # https://docs.blender.org/api/current/bpy.types.UILayout.html#bpy.types.UILayout.operator
 
 

@@ -1,14 +1,17 @@
 import bpy
-import os
 
-class REY_BumpNormDisp_V1(bpy.types.Operator):
-      # will be added as `bpy.ops.rey.node1()`
-    bl_idname  : str = "rey.ng1"
-    bl_label   : str = "Instantiate REY_BumpNormDisp_V1"
+class REY_InstantiateNode(bpy.types.Operator):
+      # will be added as `bpy.ops.rey.instantiate_node()`
+    bl_idname  : str = "rey.instantiate_node"
+    bl_label   : str = "Instantiate Node"
     bl_options : str = {'REGISTER', 'UNDO'}
 
-    REY_NG1    : str = "REY_BumpNormDisp_V1"
-      # NODE will be imported/loaded/appended by "Append_REY_Nodes.py"
+    # BLENDER OPERATOR/Function arguments (properties)
+    node_group_name: bpy.props.StringProperty(
+        name="REY Node Name",
+        description="Name of the REY_NodeGroup to Instantiate",
+        default="REY_BumpNormDisp_V1"
+    )
 
     def execute(self, context):
         # Are we in the Shader Editor?
@@ -23,17 +26,21 @@ class REY_BumpNormDisp_V1(bpy.types.Operator):
             bpy.ops.node.add_node(type="ShaderNodeGroup", use_transform=True)
             if True:
                 node = nodeTree.nodes.active
-                NG1 = bpy.data.node_groups.get(self.REY_NG1)
+                NG = bpy.data.node_groups.get(self.node_group_name)
+
+                if not NG:
+                    self.report({'ERROR'}, f"Node group '{self.node_group_name}' not found!")
+                    return {'CANCELLED'}
                 
-                node.node_tree = NG1
-                node.width     = NG1.default_group_node_width
+                node.node_tree = NG
+                node.width     = NG.default_group_node_width
                     # Yeah, NodeGroup is a type of NodeTree 💁‍♀️
                 
             return bpy.ops.node.translate_attach_remove_on_cancel('INVOKE_DEFAULT')
         # https://github.com/blender/blender/blob/4499ae45051c7710f5287717d98fba9fd7d5bc1b/scripts/startup/bl_operators/node.py#L41
 
 def register():
-    bpy.utils.register_class(REY_BumpNormDisp_V1)
+    bpy.utils.register_class(REY_InstantiateNode)
 
 def unregister():
-    bpy.utils.unregister_class(REY_BumpNormDisp_V1)
+    bpy.utils.unregister_class(REY_InstantiateNode)
