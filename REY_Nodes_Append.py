@@ -16,7 +16,7 @@ class REY_Nodes_Append(bpy.types.Operator):
         print("[REY_Nodes_Append.py] :: bpy.ops.rey.nodes_append()")
         print("")
 
-
+        # ---------- Nothing hpnd other than Logging/Printing ----------
         global  LOADED_REY_NODES
         print( "    LOADED_REY_NODES:- ", LOADED_REY_NODES )
 
@@ -31,13 +31,14 @@ class REY_Nodes_Append(bpy.types.Operator):
             
             else:
                 print("     REY_Nodes.blend:- ", BlendFile)
-
                 print("")
                 print("    Loading/Appending REY_Nodes")
+                # ---------- _LOAD_REY_NODES_ ----------
                 self._LOAD_REY_NODES_(BlendFile)
+                # ---------- _LOAD_REY_NODES_ ----------
                 print("    Loaded/Appended   REY_Nodes")
                 print("")
-
+        # ---------- Nothing hpnd other than Logging/Printing ----------
 
         print("[REY_Nodes_Append.py] :: bpy.ops.rey.nodes_append()")
         print("")
@@ -50,7 +51,9 @@ class REY_Nodes_Append(bpy.types.Operator):
         """Load the node group from an external .blend file into the current Blender session."""
         
         global LOADED_REY_NODES
-        NodeGroupNames_List = {"REY_BumpNormDisp_V1"}
+        NodeGroupNames_List = {
+            "REY_BumpNormDisp_V1"
+        }
 
         for NGN in NodeGroupNames_List:
             # Check if the node group is already loaded

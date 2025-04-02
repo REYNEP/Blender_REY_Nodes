@@ -30,9 +30,29 @@ class REY_InstantiateNode(bpy.types.Operator):
             return {'CANCELLED'}
 
         else:
-            NT = context.space_data.edit_tree
-            return REY_Utils.add_ShaderNodeGroup(self.node_group_name, NT, self.MESSAGE_notFound_REY_Node)
-                # this way you can see/understand various types of functions/stuffs to do with blender python
+            # Instantiate The Node
+            bpy.ops.node.add_node(type="ShaderNodeGroup", use_transform=True)
+                # https://github.com/blender/blender/blob/4499ae45051c7710f5287717d98fba9fd7d5bc1b/scripts/startup/bl_operators/node.py#L41
+
+            if True:
+                NT = context.space_data.edit_tree               # NodeTree
+                NGN = self.node_group_name                      # REY_NodeName
+                NG = bpy.data.node_groups.get(NGN)              # REY_Node
+
+                if not NG:
+                    bpy.ops.rey.nodes_append()
+                    NG = bpy.data.node_groups.get(NGN)          # REY_Node
+
+                if not NG:
+                    self.MESSAGE_notFound_REY_Node()
+                    return {'CANCELLED'}
+                
+                node = NT.nodes.active                          # Node
+                node.node_tree = NG                             # REY_Node -> Node
+                node.width     = NG.default_group_node_width    # Width
+                    # Yeah, NodeGroup is a type of NodeTree 💁‍♀️
+                
+            return bpy.ops.node.translate_attach_remove_on_cancel('INVOKE_DEFAULT')
 
 def register():
     bpy.utils.register_class(REY_InstantiateNode)
