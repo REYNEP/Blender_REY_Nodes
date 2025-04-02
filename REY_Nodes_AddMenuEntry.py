@@ -1,10 +1,18 @@
 import bpy
 
+
+
+
 # AM = "Add Menu" = SHIFT + A Menu
     
 # Function to add our custom menu into the Shader Editor's Add Menu
 def AM_DRAW_ENTRY(self, context):
-    """Yeah, So, this function is like called everytime someone presses SHIFT + A"""
+    """
+        Yeah, So, This Function is like.... gets called everytime
+            -> someone presses SHIFT + A"
+
+        So we must not call any heavy functions / bpy.operators inside this
+    """
     self.layout.menu("AM_MT_REY_Nodes")
     
 # Class to add a new category to Shift + A
@@ -19,10 +27,10 @@ class AM_MT_REY_NODES(bpy.types.Menu):
         # Add your custom node operator to the dropdown
         op = layout.operator("rey.nodes_append", text="Append REY_Nodes")
         op = layout.operator("rey.instantiate_node", text="REY_BumpNormDisp_V1")
-        # Call the operator with a parameter
-        op.node_group_name = "REY_BumpNormDisp_V1"  # Pass the parameter here
-
+        op.node_group_name = "REY_BumpNormDisp_V1"
+            # Call the operator with a parameter
             # https://docs.blender.org/api/current/bpy.types.UILayout.html#bpy.types.UILayout.operator
+
 
 
 

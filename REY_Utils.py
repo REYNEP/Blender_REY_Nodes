@@ -32,3 +32,18 @@ def add_ShaderNodeGroup(group_name: str, pNodeTree: bpy.types.SpaceNodeEditor, p
             # Yeah, NodeGroup is a type of NodeTree 💁‍♀️
         
     return bpy.ops.node.translate_attach_remove_on_cancel('INVOKE_DEFAULT')
+
+
+
+
+
+
+
+
+import os
+def _doesEXIST_(self, BlendFile):
+    if not os.path.exists(BlendFile):
+        print(f"❌ File not found: {BlendFile}")
+        return False
+    else:
+        return True
