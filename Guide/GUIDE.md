@@ -27,4 +27,8 @@
         - as of Blender4.4.
         - Python officially Stable Ships 3.13.x
         - but Blender4.4. uses Python 3.11
-        - `bpy` can't work with anything higher 
+        - `bpy` can't work with anything higher
+    - See my `18.mar11_newWindowsGuide.md`
+        - i installed python311 via scoop
+    - VSCODE
+        - `python select interpreter` 

@@ -7,8 +7,8 @@ class REY_InstantiateNode(bpy.types.Operator):
     bl_options : str = {'REGISTER', 'UNDO'}
 
     # BLENDER OPERATOR/Function arguments (properties)
-    node_group_name: bpy.props.StringProperty(
-        name="REY Node Name",
+    node_group_name: bpy.props.StringProperty(          # type: ignore
+        name="REY Node Name",                           # https://github.com/microsoft/pylance-release/issues/5457
         description="Name of the REY_NodeGroup to Instantiate",
         default="REY_BumpNormDisp_V1"
     )
