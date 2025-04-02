@@ -11,11 +11,13 @@ from . import RealtimeTesting
 from . import REY_Nodes_InstantiateNode
 from . import REY_Nodes_Append
 from . import REY_Nodes_AddMenuEntry
+from . import REY_Utils
 
 def register():
     RealtimeTesting.reload_if_changed(REY_Nodes_InstantiateNode)
     RealtimeTesting.reload_if_changed(REY_Nodes_Append)
     RealtimeTesting.reload_if_changed(REY_Nodes_AddMenuEntry)
+    RealtimeTesting.reload_if_changed(REY_Utils)
         # Read docs of this function in it's file 😉
     
     print("Registering REY_Nodes")

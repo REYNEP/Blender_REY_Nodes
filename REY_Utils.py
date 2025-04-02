@@ -41,7 +41,7 @@ def add_ShaderNodeGroup(group_name: str, pNodeTree: bpy.types.SpaceNodeEditor, p
 
 
 import os
-def _doesEXIST_(self, BlendFile):
+def doesEXIST(BlendFile):
     if not os.path.exists(BlendFile):
         print(f"❌ File not found: {BlendFile}")
         return False
