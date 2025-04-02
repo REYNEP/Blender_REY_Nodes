@@ -1,39 +1,43 @@
 import bpy
+import REY_Utils
 
 class REY_InstantiateNode(bpy.types.Operator):
-      # will be added as `bpy.ops.rey.instantiate_node()`
+      # this function/operator will be added as `bpy.ops.rey.instantiate_node()`
     bl_idname  : str = "rey.instantiate_node"
-    bl_label   : str = "Instantiate Node"
+    bl_label   : str = "Instantiate a REY_Node"
     bl_options : str = {'REGISTER', 'UNDO'}
 
     # BLENDER OPERATOR/Function arguments (properties)
-    node_group_name: bpy.props.StringProperty(          # type: ignore
-        name="REY Node Name",                           # https://github.com/microsoft/pylance-release/issues/5457
-        description="Name of the REY_NodeGroup to Instantiate",
+    node_group_name: bpy.props.StringProperty(      # type: ignore
+        name="REY Node Name",                       # https://github.com/microsoft/pylance-release/issues/5457
+        description="Name of the REY_Node to Instantiate",
         default="REY_BumpNormDisp_V1"
     )
 
+    def MSG_notShaderEditor(self):
+        self.report({'WARNING'}, "[REY_Nodes] Not in Shader Editor!")
+    def MSG_notFound_REY_Node(self):
+        self.report({'ERROR'}, f"Node group '{self.node_group_name}' not found!")
+
     def execute(self, context):
-        # Are we in the Shader Editor?
-        if not context.space_data or context.space_data.tree_type != 'ShaderNodeTree':
-            self.report({'WARNING'}, "Not in Shader Editor!")
+        if REY_Utils .isShaderEditor():
+            self.MSG_notShaderEditor()
             return {'CANCELLED'}
         
         else:
-            nodeTree = context.space_data.edit_tree
-            
             # Instantiate The Node
             bpy.ops.node.add_node(type="ShaderNodeGroup", use_transform=True)
             if True:
-                node = nodeTree.nodes.active
-                NG = bpy.data.node_groups.get(self.node_group_name)
+                NT = context.space_data.edit_tree                       # NodeTree
+                NG = bpy.data.node_groups.get(self.node_group_name)     # REY_Node
 
                 if not NG:
-                    self.report({'ERROR'}, f"Node group '{self.node_group_name}' not found!")
+                    self.MSG_notFound_REY_Node()
                     return {'CANCELLED'}
                 
-                node.node_tree = NG
-                node.width     = NG.default_group_node_width
+                node = NT.nodes.active                                  # Node
+                node.node_tree = NG                                     # REY_Node -> Node
+                node.width     = NG.default_group_node_width            # Width
                     # Yeah, NodeGroup is a type of NodeTree 💁‍♀️
                 
             return bpy.ops.node.translate_attach_remove_on_cancel('INVOKE_DEFAULT')

@@ -9,9 +9,6 @@ class REY_Nodes_Append(bpy.types.Operator):
     bl_label   : str = "REY_Nodes_Append"
     bl_options : str = {'REGISTER'}
 
-    REY_NG1    : str = "REY_BumpNormDisp_V1"
-      # Not yet, getting used, but, in the next update, we will be creating like a list of nodes 😉
-
     def execute(self, context):
         global LOADED_REY_NODES
         print("")
