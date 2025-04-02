@@ -26,6 +26,7 @@ class REY_Nodes_Append(bpy.types.Operator):
             BlendFile = os.path.join(os.path.dirname(__file__), "REY_Nodes.blend")
 
             if (REY_Utils.doesEXIST(BlendFile) == False):     # Automatically Logs if not found
+                self.report({'ERROR'}, f"REY_Nodes.blend not found! [see console]")
                 return {'CANCELLED'}
             
             else:
@@ -62,7 +63,8 @@ class REY_Nodes_Append(bpy.types.Operator):
                     Dest_BlendFile_Data.node_groups.append(NGN)
                     print(f"        ✅ Loaded Node Group: {NGN}")
                 else:
-                    print(f"        ❌ Node group '{NGN}' not found in the file.")
+                    print(f"        ❌ Node group '{NGN}' not found in REY_Nodes.blend!")
+                    self.report({'ERROR'}, f"Node group '{NGN}' not found in REY_Nodes.blend! [see console]")
         
         LOADED_REY_NODES = True
         print("        LOADED_REY_NODES:- ", LOADED_REY_NODES)
